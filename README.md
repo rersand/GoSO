@@ -1,5 +1,8 @@
+
 ##André Ruan da Silva    - RA: 250008214-2
+
 ##Gabriel H. Maximiliano - RA: xxxxxxxxxxx
+
 # Go 9x9 em rede (Java)
 
 Trabalho 02 de Sistemas Operacionais: jogo para dois usuários, em processos
