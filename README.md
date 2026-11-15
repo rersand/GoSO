@@ -1,7 +1,7 @@
 
-##André Ruan da Silva    - RA: 250008214-2
+#André Ruan da Silva    - RA: 250008214-2
 
-##Gabriel H. Maximiliano - RA: xxxxxxxxxxx
+#Gabriel H. Maximiliano - RA: xxxxxxxxxxx
 
 # Go 9x9 em rede (Java)
 
