@@ -1,3 +1,5 @@
+#André Ruan da Silva    - RA: 250008214-2
+#Gabriel H. Maximiliano - RA: xxxxxxxxxxx
 # Go 9x9 em rede (Java)
 
 Trabalho 02 de Sistemas Operacionais: jogo para dois usuários, em processos
@@ -144,10 +146,3 @@ scripts\testes.bat
 pontuação), protocolo e uma **partida completa pela rede** com servidor e dois
 sockets reais (inclusive erros e desconexão do adversário).
 
-## Roteiro sugerido para o vídeo de 1 minuto
-
-1. Abrir servidor e dois jogadores lado a lado (0:00-0:10).
-2. Alguns lances alternados mostrando o tabuleiro atualizando nas duas janelas (0:10-0:25).
-3. Tentar jogar fora da vez e em posição ocupada, mostrando o erro (0:25-0:35).
-4. Mostrar uma captura (0:35-0:45).
-5. Mostrar o log do servidor com as mensagens trocadas e terminar com dois `pass` e o placar (0:45-1:00).
