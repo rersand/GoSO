@@ -1,12 +1,6 @@
 package br.go9x9.modelo;
 
-/**
- * Motivos pelos quais uma ação é recusada. O {@link #getCodigo() código}
- * viaja nas mensagens do protocolo e a {@link #getDescricao() descrição}
- * é mostrada ao jogador.
- */
 public enum MotivoErro {
-
     OCUPADA("ocupada", "Essa posição já está ocupada."),
     SUICIDIO("suicidio", "Jogada proibida: a pedra ficaria sem liberdades (suicídio)."),
     KO("ko", "Jogada proibida pela regra do ko: ela repetiria a posição anterior."),
@@ -32,7 +26,6 @@ public enum MotivoErro {
         return descricao;
     }
 
-    /** Procura o motivo pelo código recebido na rede; {@code null} se desconhecido. */
     public static MotivoErro doCodigo(String codigo) {
         for (MotivoErro motivo : values()) {
             if (motivo.codigo.equals(codigo)) {

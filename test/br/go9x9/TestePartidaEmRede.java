@@ -17,18 +17,12 @@ import static br.go9x9.Verificador.igual;
 import static br.go9x9.Verificador.secao;
 import static br.go9x9.Verificador.verdadeiro;
 
-/**
- * Partida completa pela rede: sobe o servidor de verdade, conecta dois sockets
- * e confere as mensagens trocadas, inclusive os erros que só um jogador recebe.
- */
 public final class TestePartidaEmRede {
-
     private static final int TIMEOUT_MS = 5000;
 
     private TestePartidaEmRede() {
     }
 
-    /** Cliente "cru": envia e lê linhas do protocolo sem passar pela interface de console. */
     private static final class ClienteCru implements Closeable {
         private final Socket socket;
         private final BufferedReader entrada;
@@ -116,7 +110,6 @@ public final class TestePartidaEmRede {
                     igual("branco passa", "PASSE:2:1", preto.ler());
                     igual("branco passa (visto pelo branco)", "PASSE:2:1", branco.ler());
 
-                    // Preto tem E5 e Branco tem D5: a região vazia toca as duas cores, então só contam as pedras.
                     igual("fim por dois passes (preto)", "FIM:PASSES:1.0:6.5:2", preto.ler());
                     igual("fim por dois passes (branco)", "FIM:PASSES:1.0:6.5:2", branco.ler());
                 }
@@ -133,12 +126,12 @@ public final class TestePartidaEmRede {
             Thread servidor = iniciarServidor(socketDoServidor);
 
             try (ClienteCru preto = new ClienteCru(porta)) {
-                preto.ler(); // JOGADOR:1
-                preto.ler(); // ESPERA
+                preto.ler();
+                preto.ler();
                 ClienteCru branco = new ClienteCru(porta);
-                branco.ler(); // JOGADOR:2
-                preto.ler();  // INICIO
-                branco.ler(); // INICIO
+                branco.ler();
+                preto.ler();
+                branco.ler();
                 branco.close();
                 igual("quem ficou é avisado do abandono", "ADVERSARIO_SAIU", preto.ler());
             }

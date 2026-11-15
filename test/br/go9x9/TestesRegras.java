@@ -16,9 +16,7 @@ import static br.go9x9.Verificador.igual;
 import static br.go9x9.Verificador.secao;
 import static br.go9x9.Verificador.verdadeiro;
 
-/** Testes das regras do Go, sem rede. */
 public final class TestesRegras {
-
     private TestesRegras() {
     }
 
@@ -36,7 +34,6 @@ public final class TestesRegras {
         return Posicao.analisar(texto);
     }
 
-    /** Executa a sequência alternada começando pelo jogador indicado; todas devem ser válidas. */
     private static void jogarSequencia(Partida partida, String... jogadas) {
         for (String jogada : jogadas) {
             ResultadoJogada r = partida.jogar(partida.getVez(), p(jogada));
@@ -79,7 +76,6 @@ public final class TestesRegras {
         igual("a vez passou para o 2", 2, partida.getVez());
 
         Partida grupo = new Partida();
-        // Branco forma um grupo de duas pedras (A1,B1) que Preto cerca em A2,B2,C1.
         jogarSequencia(grupo, "A2", "A1", "B2", "B1");
         ResultadoJogada capturaGrupo = grupo.jogar(1, p("C1"));
         igual("grupo de 2 pedras é capturado inteiro", 2, capturaGrupo.getCapturadas().size());
@@ -95,10 +91,8 @@ public final class TestesRegras {
         igual("a vez continua com o Branco", 2, partida.getVez());
         igual("a posição continua vazia", Pedra.VAZIA, partida.getTabuleiro().obter(p("A1")));
 
-        // Exceção: sem liberdades, mas capturando, a jogada vale.
         Partida excecao = new Partida();
         jogarSequencia(excecao, "A2", "A1", "J9", "J8");
-        // Branco A1 tem a liberdade B1; Preto joga B1 e captura A1 mesmo ficando sem espaço.
         ResultadoJogada captura = excecao.jogar(1, p("B1"));
         verdadeiro("capturar valida a jogada", captura.isValida());
         igual("A1 foi capturada", 1, captura.getCapturadas().size());
@@ -117,10 +111,6 @@ public final class TestesRegras {
     private static void ko() {
         secao("Ko");
         Partida partida = new Partida();
-        //     C D E F
-        //  6  . X O .
-        //  5  X O . O
-        //  4  . X O .
         jogarSequencia(partida, "D6", "E6", "C5", "D5", "D4", "F5", "A1", "E4");
         ResultadoJogada captura = partida.jogar(1, p("E5"));
         verdadeiro("Preto captura D5 em E5", captura.isValida() && captura.getCapturadas().contains(p("D5")));

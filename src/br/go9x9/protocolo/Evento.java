@@ -9,18 +9,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Mensagem enviada do servidor para os clientes. Objeto imutável.
- *
- * <p>Formato de uma linha: {@code TIPO:campo1:campo2:...}. Listas de posições
- * usam vírgula ({@code D5,D6}) e a lista vazia é escrita como {@code -}.</p>
- */
 public final class Evento {
-
     private static final String SEPARADOR = ":";
     private static final String VAZIO = "-";
 
-    /** Motivos de fim de partida, usados no primeiro campo de {@code FIM}. */
     public static final String MOTIVO_PASSES = "PASSES";
     public static final String MOTIVO_DESISTENCIA = "DESISTENCIA";
 
@@ -31,8 +23,6 @@ public final class Evento {
         this.tipo = tipo;
         this.campos = Collections.unmodifiableList(new ArrayList<>(Arrays.asList(campos)));
     }
-
-    // ---------- fábricas, uma por tipo de mensagem ----------
 
     public static Evento jogador(int numero) {
         return new Evento(TipoEvento.JOGADOR, String.valueOf(numero));
@@ -74,13 +64,6 @@ public final class Evento {
         return new Evento(TipoEvento.ADVERSARIO_SAIU);
     }
 
-    // ---------- leitura da rede ----------
-
-    /**
-     * Interpreta uma linha recebida pela rede.
-     *
-     * @throws MensagemInvalidaException se o tipo for desconhecido
-     */
     public static Evento analisar(String linha) throws MensagemInvalidaException {
         if (linha == null || linha.trim().isEmpty()) {
             throw new MensagemInvalidaException("Linha vazia.");
@@ -94,8 +77,6 @@ public final class Evento {
         }
         return new Evento(tipo, Arrays.copyOfRange(partes, 1, partes.length));
     }
-
-    // ---------- acesso aos campos ----------
 
     public TipoEvento getTipo() {
         return tipo;
@@ -145,7 +126,6 @@ public final class Evento {
         return lista;
     }
 
-    /** Linha pronta para enviar pela rede, sem o terminador de linha. */
     public String paraLinha() {
         StringBuilder linha = new StringBuilder(tipo.name());
         for (String campo : campos) {

@@ -7,18 +7,10 @@ import br.go9x9.modelo.Tabuleiro;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Contagem por área (regras chinesas): cada jogador soma suas pedras no
- * tabuleiro mais as regiões vazias cercadas somente por ele. O Branco recebe
- * o {@link #KOMI}. Pedras mortas devem ter sido capturadas antes dos passes.
- */
 public final class Pontuacao {
-
-    /** Compensação dada ao Branco por jogar em segundo. */
     public static final double KOMI = 5.5;
 
     private Pontuacao() {
-        // classe utilitária
     }
 
     public static ResultadoFinal calcular(Tabuleiro tabuleiro) {
@@ -49,7 +41,6 @@ public final class Pontuacao {
         return ResultadoFinal.porPontos(preto, branco + KOMI);
     }
 
-    /** Cor que cerca sozinha a região vazia, ou VAZIA se for território neutro. */
     private static Pedra donoDaRegiao(Tabuleiro tabuleiro, Set<Posicao> regiao) {
         boolean tocaPreto = false;
         boolean tocaBranco = false;

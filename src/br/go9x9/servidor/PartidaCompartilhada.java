@@ -10,23 +10,12 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.locks.ReentrantLock;
 
-/**
- * Estado da partida compartilhado entre as threads de cada jogador.
- *
- * <p><strong>Exclusão mútua:</strong> cada conexão roda em sua própria thread, mas
- * todas disputam o mesmo tabuleiro e a mesma variável de vez. Por isso toda
- * leitura ou escrita do estado acontece com {@link #trava} adquirida. A trava
- * também cobre o envio dos eventos aos clientes, de modo que os dois jogadores
- * recebem as mensagens na mesma ordem em que o estado foi alterado.</p>
- */
 public final class PartidaCompartilhada {
-
     private final ReentrantLock trava = new ReentrantLock();
     private final Partida partida = new Partida();
     private final Map<Integer, Destinatario> jogadores = new TreeMap<>();
     private boolean iniciada;
 
-    /** Cadastra um jogador; quando o segundo chega a partida começa. */
     public void registrar(int jogador, Destinatario destinatario) {
         trava.lock();
         try {
@@ -47,10 +36,6 @@ public final class PartidaCompartilhada {
         }
     }
 
-    /**
-     * Executa o comando recebido da conexão do jogador indicado. O servidor é
-     * a autoridade: confere identidade, vez e regras antes de alterar o estado.
-     */
     public void processar(int jogadorDaConexao, Comando comando) {
         trava.lock();
         try {
@@ -81,7 +66,6 @@ public final class PartidaCompartilhada {
         }
     }
 
-    /** Envia um erro apenas ao jogador indicado (usado para linhas ilegíveis). */
     public void responderErro(int jogador, MotivoErro motivo) {
         trava.lock();
         try {
@@ -94,7 +78,6 @@ public final class PartidaCompartilhada {
         }
     }
 
-    /** Chamado quando a conexão de um jogador termina; encerra a partida se ainda estava em andamento. */
     public void desconectar(int jogador) {
         trava.lock();
         try {
@@ -117,8 +100,7 @@ public final class PartidaCompartilhada {
         }
     }
 
-    // Os métodos abaixo só são chamados por processar(), que já detém a trava.
-
+    // Os métodos abaixo exigem que a trava já esteja adquirida (só são chamados por processar()).
     private void tratarJogada(int jogador, Comando comando) {
         ResultadoJogada resultado = partida.jogar(jogador, comando.getPosicao());
         if (!resultado.isValida()) {

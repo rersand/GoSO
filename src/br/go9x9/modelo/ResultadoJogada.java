@@ -4,12 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Resultado de uma ação sobre a partida: ou foi aceita (com a lista de pedras
- * capturadas) ou foi recusada por um {@link MotivoErro}. Objeto imutável.
- */
 public final class ResultadoJogada {
-
     private final MotivoErro erro;
     private final List<Posicao> capturadas;
 
@@ -30,7 +25,6 @@ public final class ResultadoJogada {
         return erro == null;
     }
 
-    /** Motivo da recusa; {@code null} quando a jogada é válida. */
     public MotivoErro getErro() {
         return erro;
     }

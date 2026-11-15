@@ -13,13 +13,7 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
-/**
- * Atende um jogador: lê os comandos do socket dele (em uma thread própria) e
- * entrega à {@link PartidaCompartilhada}. Também serve de {@link Destinatario}
- * para os eventos que vão para esse jogador.
- */
 final class ConexaoJogador implements Runnable, Destinatario {
-
     private final int numero;
     private final Socket socket;
     private final PartidaCompartilhada partida;
@@ -65,7 +59,6 @@ final class ConexaoJogador implements Runnable, Destinatario {
         }
     }
 
-    /** Sincronizado porque eventos podem ser disparados pela thread do adversário. */
     @Override
     public synchronized void enviar(Evento evento) {
         if (saida == null) {

@@ -1,5 +1,4 @@
 @echo off
-rem Compila codigo + testes e executa todos os testes automatizados.
 setlocal
 call "%~dp0ambiente.bat"
 cd /d "%~dp0.."

@@ -6,15 +6,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Servidor do Go 9x9: aceita dois jogadores (o primeiro joga de Preto, o
- * segundo de Branco), cria uma thread para cada um e fica de árbitro até o
- * fim da partida.
- *
- * <p>Uso: {@code java br.go9x9.servidor.Servidor [porta]} (padrão 5000).</p>
- */
 public final class Servidor {
-
     public static final int PORTA_PADRAO = 5000;
     private static final int JOGADORES = 2;
 
@@ -47,7 +39,6 @@ public final class Servidor {
         }
     }
 
-    /** Aceita os dois jogadores e espera a partida terminar. */
     public void executar() throws IOException, InterruptedException {
         PartidaCompartilhada partida = new PartidaCompartilhada();
         List<Thread> threads = new ArrayList<>();

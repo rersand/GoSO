@@ -1,6 +1,4 @@
 @echo off
-rem Garante que "java", "javac" e "jar" estejam no PATH.
-rem Usa o que ja estiver no PATH; se nao houver javac, procura um JDK baixado pelo IntelliJ.
 
 where javac >nul 2>nul
 if not errorlevel 1 goto :fim

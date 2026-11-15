@@ -14,9 +14,7 @@ import static br.go9x9.Verificador.igual;
 import static br.go9x9.Verificador.secao;
 import static br.go9x9.Verificador.verdadeiro;
 
-/** Testes da notação das mensagens. */
 public final class TestesProtocolo {
-
     private TestesProtocolo() {
     }
 

@@ -4,31 +4,13 @@ import br.go9x9.modelo.Pedra;
 import br.go9x9.modelo.Posicao;
 import br.go9x9.modelo.Tabuleiro;
 
-/**
- * Desenha o tabuleiro em ASCII. Pedras: {@code X} = Preto, {@code O} = Branco;
- * {@code +} marca os pontos de referência (hoshi) e a última jogada aparece
- * entre colchetes, por exemplo {@code [X]}.
- *
- * <pre>
- *     A  B  C  D  E  F  G  H  J
- *  9  .  .  .  .  .  .  .  .  .  9
- *  8  .  .  .  .  .  .  .  .  .  8
- *  7  .  .  +  .  .  .  +  .  .  7
- *  ...
- * </pre>
- */
 public final class TabuleiroConsole {
-
     private static final String COLUNAS = "ABCDEFGHJ";
     private static final int[][] HOSHI = {{2, 2}, {2, 6}, {6, 2}, {6, 6}, {4, 4}};
 
     private TabuleiroConsole() {
-        // classe utilitária
     }
 
-    /**
-     * @param ultimaJogada posição a destacar; pode ser {@code null}
-     */
     public static String desenhar(Tabuleiro tabuleiro, Posicao ultimaJogada) {
         StringBuilder desenho = new StringBuilder();
         desenho.append(cabecalho()).append('\n');
@@ -46,7 +28,6 @@ public final class TabuleiroConsole {
         return desenho.toString();
     }
 
-    /** Letras das colunas alinhadas com o centro de cada casa (rótulo de linha + 1 espaço). */
     private static String cabecalho() {
         StringBuilder letras = new StringBuilder("    ");
         for (int coluna = 0; coluna < Tabuleiro.TAMANHO; coluna++) {

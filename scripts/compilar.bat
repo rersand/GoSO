@@ -1,5 +1,4 @@
 @echo off
-rem Compila o projeto (compativel com Java 8+) e gera dist\go9x9.jar.
 setlocal
 call "%~dp0ambiente.bat"
 cd /d "%~dp0.."

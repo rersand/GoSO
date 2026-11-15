@@ -1,14 +1,6 @@
 package br.go9x9.modelo;
 
-/**
- * Interseção do tabuleiro. Objeto imutável.
- *
- * <p>Na notação textual a coluna é uma letra de A a J (a letra I não é usada,
- * como no Go tradicional) e a linha é um número de 1 a 9, com a linha 1 na
- * parte de baixo. Internamente usamos índices de 0 a 8.</p>
- */
 public final class Posicao {
-
     private static final String COLUNAS = "ABCDEFGHJ";
 
     private final int linha;
@@ -22,11 +14,6 @@ public final class Posicao {
         this.coluna = coluna;
     }
 
-    /**
-     * Lê uma posição na notação textual, por exemplo "E5" ou "a1".
-     *
-     * @throws IllegalArgumentException se o texto não for uma posição válida
-     */
     public static Posicao analisar(String texto) {
         if (texto == null || texto.length() != 2) {
             throw new IllegalArgumentException("Posição inválida: " + texto);
@@ -64,7 +51,6 @@ public final class Posicao {
         return 31 * linha + coluna;
     }
 
-    /** Notação textual, por exemplo "E5". */
     @Override
     public String toString() {
         return String.valueOf(COLUNAS.charAt(coluna)) + (linha + 1);

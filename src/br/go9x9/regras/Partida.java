@@ -11,25 +11,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Regras de uma partida de Go 9x9: vez, captura, suicídio, ko simples, passes
- * e desistência. Não conhece rede nem console e <strong>não é thread-safe</strong>:
- * o servidor a protege com um lock em {@code PartidaCompartilhada}.
- */
+// Não é thread-safe: quem a compartilha entre threads deve sincronizar o acesso.
 public final class Partida {
-
     private static final int PASSES_PARA_ENCERRAR = 2;
 
     private Tabuleiro tabuleiro = new Tabuleiro();
-    /** Posição existente antes da última ação; serve para detectar o ko. */
     private Tabuleiro posicaoAnterior;
     private Pedra vez = Pedra.PRETA;
     private int passesSeguidos;
     private boolean encerrada;
-    /** Jogador que desistiu (0 se ninguém desistiu). */
     private int desistente;
 
-    /** Número do jogador (1 ou 2) que deve jogar agora. */
     public int getVez() {
         return vez.getJogador();
     }
@@ -38,12 +30,10 @@ public final class Partida {
         return encerrada;
     }
 
-    /** Cópia do tabuleiro atual. */
     public Tabuleiro getTabuleiro() {
         return tabuleiro.copiar();
     }
 
-    /** Coloca uma pedra do jogador na posição, aplicando captura, suicídio e ko. */
     public ResultadoJogada jogar(int jogador, Posicao posicao) {
         MotivoErro impedimento = verificarVez(jogador);
         if (impedimento != null) {
@@ -73,7 +63,6 @@ public final class Partida {
         return ResultadoJogada.sucesso(capturadas);
     }
 
-    /** Passa a vez. Dois passes seguidos encerram a partida. */
     public ResultadoJogada passar(int jogador) {
         MotivoErro impedimento = verificarVez(jogador);
         if (impedimento != null) {
@@ -88,7 +77,6 @@ public final class Partida {
         return ResultadoJogada.sucesso(Collections.<Posicao>emptyList());
     }
 
-    /** Desistência: pode ser feita a qualquer momento, mesmo fora da vez. */
     public ResultadoJogada desistir(int jogador) {
         if (jogador != Pedra.PRETA.getJogador() && jogador != Pedra.BRANCA.getJogador()) {
             return ResultadoJogada.falha(MotivoErro.JOGADOR_INVALIDO);
@@ -101,7 +89,6 @@ public final class Partida {
         return ResultadoJogada.sucesso(Collections.<Posicao>emptyList());
     }
 
-    /** Desfecho da partida; só pode ser pedido depois que ela terminou. */
     public ResultadoFinal getResultadoFinal() {
         if (!encerrada) {
             throw new IllegalStateException("A partida ainda não terminou.");
@@ -125,12 +112,11 @@ public final class Partida {
         return null;
     }
 
-    /** Remove do tabuleiro os grupos adversários vizinhos da jogada que ficaram sem liberdades. */
     private static List<Posicao> capturarVizinhosSemLiberdade(Tabuleiro tabuleiro, Posicao jogada, Pedra adversaria) {
         List<Posicao> capturadas = new ArrayList<>();
         for (Posicao vizinha : tabuleiro.vizinhas(jogada)) {
             if (tabuleiro.obter(vizinha) != adversaria) {
-                continue; // vazia, própria, ou já removida nesta mesma jogada
+                continue;
             }
             Set<Posicao> grupo = Regras.grupoDe(tabuleiro, vizinha);
             if (Regras.liberdadesDe(tabuleiro, grupo).isEmpty()) {

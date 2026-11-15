@@ -6,19 +6,10 @@ import br.go9x9.modelo.Tabuleiro;
 
 import java.util.List;
 
-/**
- * Cópia local do estado da partida mantida pelo cliente: tabuleiro, de quem é
- * a vez e se o jogo já terminou. Só é atualizada com o que o servidor confirma.
- *
- * <p>Duas threads usam este objeto (a que lê o teclado e a que recebe mensagens
- * da rede), então todos os métodos são {@code synchronized}.</p>
- */
 public final class EstadoLocal {
-
     private static final int PASSES_PARA_ENCERRAR = 2;
 
     private final Tabuleiro tabuleiro = new Tabuleiro();
-    /** Pedras capturadas por cada jogador; o índice é o número do jogador. */
     private final int[] prisioneiros = new int[3];
     private int meuJogador;
     private int vez;
@@ -56,7 +47,6 @@ public final class EstadoLocal {
         passesSeguidos++;
     }
 
-    /** Verdadeiro quando os dois últimos lances foram passes, ou seja, o servidor vai anunciar o fim. */
     public synchronized boolean partidaPrestesAEncerrar() {
         return passesSeguidos >= PASSES_PARA_ENCERRAR;
     }
@@ -81,7 +71,6 @@ public final class EstadoLocal {
         return iniciada && !encerrada && vez == meuJogador;
     }
 
-    /** Desenho do tabuleiro com o placar de capturas. */
     public synchronized String renderizar() {
         return TabuleiroConsole.desenhar(tabuleiro, ultimaJogada)
                 + "\n   Capturas -> Preto (X): " + prisioneiros[1] + " | Branco (O): " + prisioneiros[2];

@@ -17,17 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Cliente do Go 9x9 para console.
- *
- * <p>Usa duas threads: a principal recebe os eventos do servidor e atualiza o
- * {@link EstadoLocal}; a de teclado lê os comandos digitados e os envia.</p>
- *
- * <p>Uso: {@code java br.go9x9.cliente.Cliente [host] [porta]}
- * (padrão localhost:5000).</p>
- */
 public final class Cliente {
-
     private static final String HOST_PADRAO = "localhost";
     private static final int PORTA_PADRAO = 5000;
 
@@ -73,7 +63,6 @@ public final class Cliente {
             this.saida = escritor;
             System.out.println("Conectado a " + host + ":" + porta);
 
-            // Daemon: se o jogo acabar, o programa pode terminar mesmo com o teclado bloqueado.
             Thread teclado = new Thread(this::lerTeclado, "teclado");
             teclado.setDaemon(true);
             teclado.start();
@@ -81,8 +70,6 @@ public final class Cliente {
             receberEventos(entrada);
         }
     }
-
-    // ---------- thread principal: rede ----------
 
     private void receberEventos(BufferedReader entrada) {
         try {
@@ -197,8 +184,6 @@ public final class Cliente {
         }
     }
 
-    // ---------- thread de teclado ----------
-
     private void lerTeclado() {
         try (BufferedReader teclado = new BufferedReader(new InputStreamReader(System.in))) {
             String linha;
@@ -244,7 +229,7 @@ public final class Cliente {
         switch (comando) {
             case "resign":
             case "desistir":
-                enviar(Comando.desistir(eu)); // pode desistir mesmo fora da vez
+                enviar(Comando.desistir(eu));
                 return;
             case "pass":
             case "passar":
@@ -266,7 +251,6 @@ public final class Cliente {
         }
     }
 
-    /** Checagem rápida com a variável local de vez; o servidor ainda confere de novo. */
     private boolean verificarMinhaVez() {
         if (!estado.ehMinhaVez()) {
             System.out.println("Não é a sua vez.");
@@ -291,7 +275,7 @@ public final class Cliente {
         saindo = true;
         estado.encerrar();
         try {
-            socket.close(); // desbloqueia a thread de rede
+            socket.close();
         } catch (IOException e) {
             System.err.println("Erro ao fechar a conexão: " + e.getMessage());
         }

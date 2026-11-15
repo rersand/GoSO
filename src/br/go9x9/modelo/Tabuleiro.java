@@ -4,13 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Tabuleiro 9x9. É um objeto mutável: quem o compartilha entre threads
- * precisa protegê-lo (no servidor isso é feito por
- * {@code PartidaCompartilhada}, com um lock).
- */
 public final class Tabuleiro {
-
     public static final int TAMANHO = 9;
 
     private static final int[][] DIRECOES = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
@@ -43,7 +37,6 @@ public final class Tabuleiro {
         colocar(posicao, Pedra.VAZIA);
     }
 
-    /** Interseções adjacentes (cima, baixo, esquerda, direita) que existem no tabuleiro. */
     public List<Posicao> vizinhas(Posicao posicao) {
         List<Posicao> vizinhas = new ArrayList<>(4);
         for (int[] direcao : DIRECOES) {
@@ -56,7 +49,6 @@ public final class Tabuleiro {
         return vizinhas;
     }
 
-    /** Cópia independente do tabuleiro. */
     public Tabuleiro copiar() {
         return new Tabuleiro(grade);
     }

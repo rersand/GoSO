@@ -9,20 +9,10 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Funções puras sobre grupos de pedras. Não alteram o tabuleiro.
- */
 public final class Regras {
-
     private Regras() {
-        // classe utilitária
     }
 
-    /**
-     * Conjunto conectado de interseções com o mesmo conteúdo da origem
-     * (busca em largura). Para uma pedra é o seu grupo; para uma interseção
-     * vazia é a região vazia à qual ela pertence.
-     */
     public static Set<Posicao> grupoDe(Tabuleiro tabuleiro, Posicao origem) {
         Pedra conteudo = tabuleiro.obter(origem);
         Set<Posicao> grupo = new HashSet<>();
@@ -40,7 +30,6 @@ public final class Regras {
         return grupo;
     }
 
-    /** Interseções vazias adjacentes ao grupo (as suas "liberdades"). */
     public static Set<Posicao> liberdadesDe(Tabuleiro tabuleiro, Set<Posicao> grupo) {
         Set<Posicao> liberdades = new HashSet<>();
         for (Posicao pedra : grupo) {

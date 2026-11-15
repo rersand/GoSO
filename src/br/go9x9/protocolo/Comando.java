@@ -4,20 +4,7 @@ import br.go9x9.modelo.Posicao;
 
 import java.util.Locale;
 
-/**
- * Mensagem enviada do cliente para o servidor. Objeto imutável.
- *
- * <p>Notação compacta, no estilo do exemplo "2Cc3" do enunciado:
- * {@code <jogador><ação>[<posição>]}</p>
- * <ul>
- *   <li>{@code 1JE5} - jogador 1 joga em E5</li>
- *   <li>{@code 2P} - jogador 2 passa a vez</li>
- *   <li>{@code 1R} - jogador 1 desiste (resign)</li>
- * </ul>
- */
 public final class Comando {
-
-    /** Ações que um jogador pode pedir ao servidor. */
     public enum Acao {
         JOGAR('J'),
         PASSAR('P'),
@@ -65,11 +52,6 @@ public final class Comando {
         return new Comando(jogador, Acao.DESISTIR, null);
     }
 
-    /**
-     * Interpreta uma linha recebida pela rede.
-     *
-     * @throws MensagemInvalidaException se a linha não seguir a notação
-     */
     public static Comando analisar(String linha) throws MensagemInvalidaException {
         if (linha == null) {
             throw new MensagemInvalidaException("Linha ausente.");
@@ -111,12 +93,10 @@ public final class Comando {
         return acao;
     }
 
-    /** Posição jogada; {@code null} para passar e desistir. */
     public Posicao getPosicao() {
         return posicao;
     }
 
-    /** Linha pronta para enviar pela rede, sem o terminador de linha. */
     public String paraLinha() {
         return String.valueOf(jogador) + acao.getCodigo() + (posicao != null ? posicao.toString() : "");
     }
